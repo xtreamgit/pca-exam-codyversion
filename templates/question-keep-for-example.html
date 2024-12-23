@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question {{ question['number'] }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Question {{ question['number'] }}</h2>
+        <div>
+            {% if question['number'] | int > 1 %}
+            <a href="{{ url_for('display_question', question_number=question['number'] | int - 1) }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+            {% if question['number'] | int < 270 %}
+            <a href="{{ url_for('display_question', question_number=question['number'] | int + 1) }}" class="btn btn-primary">Next</a>
+            {% endif %}
+        </div>
+        <p>{{ question['text'] }}</p>
+        <form>
+            {% if question['choices'] == 1 %}
+                {% for option in question['options'] %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="option" id="option{{ option['key'] }}" value="{{ option['key'] }}">
+                    <label class="form-check-label" for="option{{ option['key'] }}">
+                        {{ option['key'] }}: {{ option['value'] }}
+                    </label>
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for option in question['options'] %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="option{{ option['key'] }}" id="option{{ option['key'] }}" value="{{ option['key'] }}">
+                    <label class="form-check-label" for="option{{ option['key'] }}">
+                        {{ option['key'] }}: {{ option['value'] }}
+                    </label>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
